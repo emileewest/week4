@@ -1,1 +1,43 @@
+'''
 
+For this assignment please do the following:
+
+- Read in the student_grades.csv file
+
+- calculate the average grade for the class
+
+- for each student record calculate the difference between the student's grade and the average grade
+
+- write the output to a new file called student_grade_differences.csv
+
+'''
+
+import csv
+
+input_file = "student_grades.csv"
+output_file = "student_grade_differences.csv"
+
+grades = []
+
+students = []
+
+with open(input_file, mode='r') as file:
+    reader = csv.reader(file)
+    next(reader)
+    for row in reader:
+        id_, first_name, last_name, grade = row
+        grade = int(grade)
+        students.append((id_, first_name, last_name, grade))
+        grades.append(grade)
+
+average_grade = sum(grades) / len(grades)
+
+with open(output_file, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(["id", "first_name", "last_name", "grade", "difference_from_average"])
+
+    for id_, first_name, last_name, grade in students:
+        difference = grade - average_grade
+        writer.writerow([id_, first_name, last_name, grade, round(difference, 2)])
+print("The average class grade is:",average_grade)
+print(f"Student differences in grades have been created as '{output_file}' successfully! Please view the file.")
